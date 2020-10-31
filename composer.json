@@ -21,8 +21,10 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
         "symfony/maker-bundle": "^1.23",
-        "symfony/web-server-bundle": "^4.4"
+        "symfony/web-server-bundle": "^4.4",
+        "zenstruck/foundry": "^1.4"
     },
     "config": {
         "optimize-autoloader": true,
