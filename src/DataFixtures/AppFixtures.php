@@ -5,13 +5,26 @@ namespace App\DataFixtures;
 use App\Factory\AcJournalAnswerFactory;
 use App\Factory\AcJournalEntryFactory;
 use App\Factory\AcJournalQuestionFactory;
+use App\Factory\AcJournalUserFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
+    public function __construct()
+    {
+    }
+
     public function load(ObjectManager $manager)
     {
+        // create a test user
+        $test_user = AcJournalUserFactory::new([
+            'email' => 'develop@adinochang.com',
+            'password' => 'test2288',
+            'roles' => ['ROLE_ADMIN'],
+        ])->create()
+        ->getPassword();
+
         // Create two dummy questions
         $question_1 = AcJournalQuestionFactory::new()->create();
         $question_2 = AcJournalQuestionFactory::new()->create();
