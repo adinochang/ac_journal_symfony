@@ -33,6 +33,12 @@
             <li><a href="#">Questions</a></li>
             <li><a href="#">Entries</a></li>
             <li><a href="#">Reports</a></li>
+
+            {% if app.user == null %}
+                <li><a href="/login">Login</a></li>
+            {% else %}
+                <li><a href="/logout">Logout</a></li>
+            {% endif %}
         </ul>
     </nav>
 </header>

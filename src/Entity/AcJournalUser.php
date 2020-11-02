@@ -168,4 +168,9 @@ class AcJournalUser implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    public function getFirstName(): ?string
+    {
+        return explode(' ', $this->name)[0];
+    }
 }

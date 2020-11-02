@@ -1,13 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block page_title %}
-<h2>Hi. How was your day?</h2>
+    {% if app.user %}
+        <h2>Hi {{ app.user.firstname }}. How was your day?</h2>
+    {% endif %}
 {% endblock %}
 
 {% block action %}
-<li>
-    <a href="#" class="button big">New Entry</a>
-</li>
+    {% if app.user %}
+        <li>
+            <a href="#" class="button big">New Entry</a>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
