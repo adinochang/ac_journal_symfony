@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AcJournalQuestion
  *
  * @ORM\Table(name="ac_journal_question")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\AcJournalQuestionRepository")
  */
 class AcJournalQuestion
 {
@@ -120,6 +120,4 @@ class AcJournalQuestion
 
         return $this;
     }
-
-
 }

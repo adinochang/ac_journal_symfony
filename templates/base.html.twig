@@ -30,14 +30,14 @@
     <h1><a href="/">AC Journal</a></h1>
     <nav id="nav">
         <ul>
-            <li><a href="#">Questions</a></li>
+            <li><a href="{{ path('question') }}">Questions</a></li>
             <li><a href="#">Entries</a></li>
             <li><a href="#">Reports</a></li>
 
             {% if app.user == null %}
-                <li><a href="/login">Login</a></li>
+                <li><a href="{{ path('app_login') }}">Login</a></li>
             {% else %}
-                <li><a href="/logout">Logout</a></li>
+                <li><a href="{{ path('app_logout') }}">Logout</a></li>
             {% endif %}
         </ul>
     </nav>

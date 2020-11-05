@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title %}<h2>Setup Questions</h2>{% endblock %}
+
+{% block content %}
+
+    <div class="content-wrapper">
+        <p>
+            <a href="{{ path('question_new') }}" class="button alt icon fa-plus small" style="margin-right: 1em;">New Question</a>
+        </p>
+
+        <div class="table-wrapper">
+            <table class="alt">
+                <thead>
+                <tr>
+                    <th>Label</th>
+                    <th>Required</th>
+                    <th>Enabled</th>
+                    <th>Last Updated</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for question in questions %}
+                <tr>
+                    <td><a href="#" class="button alt icon fa-pencil small" style="margin-right: 1em;">Edit</a>{{ question.label }}</td>
+                    <td>{{ question.required ? 'Required' : 'Optional' }}</td>
+                    <td>{{ question.enabled ? 'Enabled' : 'Disabled' }}</td>
+                    <td>{{ question.updatedAt  ? question.updatedAt | date('Y-m-d H:i:s') : question.createdAt | date('Y-m-d H:i:s') }}</td>
+                </tr>
+                {% endfor %}
+
+                {% if questions|length == 0 %}
+                <tr>
+                    <td colspan="4">No records found</td>
+                </tr>
+                {% endif %}
+
+    {#            @if (sizeof($questions) == 0)#}
+    {#            <tr>#}
+    {#                <td colspan="4">No records found</td>#}
+    {#            </tr>#}
+    {#            @endif#}
+
+                </tbody>
+                <tfoot>
+                <tr>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}
