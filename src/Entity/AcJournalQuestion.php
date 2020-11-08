@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * AcJournalQuestion
@@ -25,8 +26,23 @@ class AcJournalQuestion
      * @var string
      *
      * @ORM\Column(name="label", type="string", length=200, nullable=false)
+     *
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 200,
+     *      minMessage = "Question label must be at least {{ limit }} characters long",
+     *      maxMessage = "Question label cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      */
     private $label;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="sort_order", type="integer", nullable=false, options={"default"="1"})
+     */
+    private $sortOrder = '1';
 
     /**
      * @var bool
@@ -69,6 +85,18 @@ class AcJournalQuestion
     public function setLabel(string $label): self
     {
         $this->label = $label;
+
+        return $this;
+    }
+
+    public function getSortOrder(): ?int
+    {
+        return $this->sortOrder;
+    }
+
+    public function setSortOrder(int $sortOrder): self
+    {
+        $this->sortOrder = $sortOrder;
 
         return $this;
     }
@@ -120,4 +148,6 @@ class AcJournalQuestion
 
         return $this;
     }
+
+
 }

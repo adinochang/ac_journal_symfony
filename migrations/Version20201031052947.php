@@ -22,6 +22,7 @@ final class Version20201031052947 extends AbstractMigration
         $this->addSql('CREATE TABLE ac_journal_question (
             id BIGINT IDENTITY NOT NULL, 
             label VARCHAR(200) NOT NULL,
+            sort_order int NOT NULL DEFAULT 1,
             required BIT NOT NULL DEFAULT 1, 
             enabled BIT NOT NULL DEFAULT 1, 
             created_at DATETIME2(6), 

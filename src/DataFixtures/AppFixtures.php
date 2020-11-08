@@ -27,7 +27,11 @@ class AppFixtures extends Fixture
 
         // Create two dummy questions
         $question_1 = AcJournalQuestionFactory::new()->create();
+        $question_1->setSortOrder(1);
         $question_2 = AcJournalQuestionFactory::new()->create();
+        $question_2->setSortOrder(2);
+        $question_3 = AcJournalQuestionFactory::new()->create();
+        $question_3->setSortOrder(3);
 
         // Create 30 entries
         $created_at = new \DateTime('120 days ago');
@@ -50,6 +54,13 @@ class AppFixtures extends Fixture
                     'question' => $question_2,
                     'created_at' => $created_at
                 ])
+                ->create();
+
+            AcJournalAnswerFactory::new([
+                'entry' => $entry,
+                'question' => $question_3,
+                'created_at' => $created_at
+            ])
                 ->create();
         }
 
