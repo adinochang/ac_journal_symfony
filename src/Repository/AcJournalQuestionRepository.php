@@ -19,6 +19,22 @@ class AcJournalQuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, AcJournalQuestion::class);
     }
 
+    public function getWithSearchQueryBuilder(?string $filter_label = null): \Doctrine\ORM\QueryBuilder
+    {
+        if (isset($filter_label) && strlen(trim($filter_label)) > 0)
+        {
+            return $this->createQueryBuilder('a')
+                ->andWhere('a.label LIKE :filter_label')
+                ->setParameter('filter_label', '%' . trim($filter_label) . '%')
+                ->orderBy('a.id', 'ASC');
+        }
+        else
+        {
+            return $this->createQueryBuilder('a')
+                ->orderBy('a.id', 'ASC');
+        }
+    }
+
     // /**
     //  * @return AcJournalQuestion[] Returns an array of AcJournalQuestion objects
     //  */

@@ -4,6 +4,53 @@
 
 {% block content %}
 <div class="content-wrapper">
-    {{ form(form) }}
+    {{ form_start(form) }}
+
+    <div class="row uniform 50% error_message">
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="row uniform 50%">
+        <div class="12u 12u$(4)">
+            {{ form_label(form.label) }}
+            {{ form_widget(form.label) }}
+            <div class="error_message">{{ form_errors(form.label) }}</div>
+        </div>
+
+        <div class="12u 12u$(4)">
+            {{ form_label(form.sortOrder) }}
+            {{ form_widget(form.sortOrder) }}
+            <div class="error_message">{{ form_errors(form.sortOrder) }}</div>
+        </div>
+
+        <div class="6u 12u$(2)">
+            <div class="select-wrapper">
+                {{ form_label(form.required) }}
+                {{ form_widget(form.required) }}
+
+                <div class="error_message">{{ form_errors(form.required) }}</div>
+            </div>
+        </div>
+
+        <div class="6u 12u$(2)">
+            <div class="select-wrapper">
+                {{ form_label(form.enabled) }}
+                {{ form_widget(form.enabled) }}
+
+                <div class="error_message">{{ form_errors(form.enabled) }}</div>
+            </div>
+        </div>
+
+        <div class="12u$">
+            <ul class="actions">
+                <li>{{ form_widget(form.submit) }}</li>
+                <li><input type="reset" value="Cancel" onclick="window.location = '/question';" /></li>
+            </ul>
+        </div>
+    </div>
+
+    {{ form_row(form._token) }}
+
+    {{ form_end(form, {'render_rest': false}) }}
 </div>
 {% endblock %}
