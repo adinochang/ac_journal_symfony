@@ -7,6 +7,9 @@
         {% for message in app.flashes('success') %}
             <div class="success-message">{{ message }}</div>
         {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="error_message">{{ message }}</div>
+        {% endfor %}
 
         <p>
             <a href="{{ path('question_new') }}" class="button alt icon fa-plus small" style="margin-right: 1em;">New Question</a>
@@ -30,9 +33,10 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 {% for question in pagination %}
                 <tr>
-                    <td><a href="#" class="button alt icon fa-pencil small" style="margin-right: 1em;">Edit</a>{{ question.label }}</td>
+                    <td><a href="{{ path('question_edit', { id: question.id } ) }}" class="button alt icon fa-pencil small" style="margin-right: 1em;">Edit</a>{{ question.label }}</td>
                     <td>{{ question.sortOrder }}</td>
                     <td>{{ question.required ? 'Required' : 'Optional' }}</td>
                     <td>{{ question.enabled ? 'Enabled' : 'Disabled' }}</td>

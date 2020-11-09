@@ -66,7 +66,7 @@ class AcJournalQuestionType extends AbstractType
             'csrf_field_name' => '_token',
             // an arbitrary string used to generate the value of the token
             // using a different string for each form improves its security
-            'csrf_token_id'   => 'question-new',
+            'csrf_token_id'   => 'question',
         ]);
     }
 }
