@@ -22,8 +22,7 @@ class AppFixtures extends Fixture
             'email' => 'develop@adinochang.com',
             'password' => 'test2288',
             'roles' => ['ROLE_ADMIN'],
-        ])->create()
-        ->getPassword();
+        ])->create();
 
         // Create two dummy questions
         $question_1 = AcJournalQuestionFactory::new()->create();
@@ -40,7 +39,10 @@ class AppFixtures extends Fixture
         {
             $created_at->add(new \DateInterval('P' . random_int(1, 7) . 'D'));
 
-            $entry = AcJournalEntryFactory::new(['created_at' => $created_at])->create();
+            $entry = AcJournalEntryFactory::new([
+                'created_at' => $created_at,
+                'author' => $test_user
+            ])->create();
 
             AcJournalAnswerFactory::new([
                     'entry' => $entry,

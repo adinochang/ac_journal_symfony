@@ -32,6 +32,7 @@ final class Version20201031052947 extends AbstractMigration
 
         $this->addSql('CREATE TABLE ac_journal_entry (
             id BIGINT IDENTITY NOT NULL, 
+            author BIGINT, 
             created_at DATETIME2(6), 
             updated_at DATETIME2(6), 
             CONSTRAINT PK_ac_journal_entry_id PRIMARY KEY NONCLUSTERED (id)

@@ -40,6 +40,8 @@ final class Version20201031054606 extends AbstractMigration
 
     public function down(Schema $schema) : void
     {
+        $this->addSql('ALTER TABLE ac_journal_answer DROP CONSTRAINT FK_ac_journal_answer_question');
+        $this->addSql('ALTER TABLE ac_journal_answer DROP CONSTRAINT FK_ac_journal_answer_entry');
         $this->addSql('DROP TABLE ac_journal_answer');
     }
 }
