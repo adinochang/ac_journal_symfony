@@ -31,7 +31,7 @@
     <nav id="nav">
         <ul>
             <li><a href="{{ path('question') }}">Questions</a></li>
-            <li><a href="#">Entries</a></li>
+            <li><a href="{{ path('entry_index') }}">Entries</a></li>
             <li><a href="#">Reports</a></li>
 
             {% if app.user == null %}

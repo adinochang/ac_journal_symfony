@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title %}<h2>All Entries</h2>{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {% for message in app.flashes('success') %}
+            <div class="success-message">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="error_message">{{ message }}</div>
+        {% endfor %}
+
+        <p>
+            <a href="{{ path('entry_new') }}" class="button alt icon fa-plus small" style="margin-right: 1em;">New Entry</a>
+        </p>
+
+        <form method="GET" action="{{ path('entry_index') }}">
+        <div class="filter-div">
+            Last Updated Date Filter: <input type="text" name="filter_date" id="filter_date" value="{{ filter_date }}" placeholder="yyyy-mm-dd" class="filter-date-input" />
+        </div>
+        </form>
+
+        <div class="table-wrapper">
+            <table class="alt">
+                <thead>
+                <tr>
+                    <th>Summary</th>
+                    <th>Author</th>
+                    <th>Last Updated</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for entry in pagination %}
+                <tr>
+                    <td><a href="{{ path('entry_edit', { id: entry.id } ) }}" class="button alt icon fa-pencil small" style="margin-right: 1em;">Edit</a>{{ entry.answer_excerpt(100) }}</td>
+                    <td>{{ entry.author.getFirstName() }}</td>
+                    <td>{{ entry.updatedAt  ? entry.updatedAt | date('Y-m-d H:i:s') : entry.createdAt | date('Y-m-d H:i:s') }}</td>
+                </tr>
+                {% endfor %}
+
+                {% if pagination|length == 0 %}
+                <tr>
+                    <td colspan="3">No records found</td>
+                </tr>
+                {% endif %}
+
+                </tbody>
+                <tfoot>
+                <tr>
+                </tr>
+                </tfoot>
+            </table>
+
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+{% endblock %}

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AcJournalAnswer
  *
  * @ORM\Table(name="ac_journal_answer", indexes={@ORM\Index(name="IDX_270A522D1E27F6BF", columns={"question_id"}), @ORM\Index(name="IDX_270A522DBA364942", columns={"entry_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\AcJournalAnswerRepository")
  */
 class AcJournalAnswer
 {
@@ -55,7 +55,7 @@ class AcJournalAnswer
     /**
      * @var \AcJournalEntry
      *
-     * @ORM\ManyToOne(targetEntity="AcJournalEntry")
+     * @ORM\ManyToOne(targetEntity="App\Entity\AcJournalEntry", inversedBy="answers")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="entry_id", referencedColumnName="id")
      * })
