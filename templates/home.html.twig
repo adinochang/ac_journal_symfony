@@ -15,14 +15,36 @@
 {% endblock %}
 
 {% block content %}
-<section id="main_" class="wrapper">
-    <div class="container">
-        <header class="major">
-            <h2>Test Home</h2>
-            <p>Recorded by AC</p>
-        </header>
+    {% for entry in pagination %}
+    <section id="main_{{ entry.id }}" class="wrapper">
+        <div class="container">
+            <header class="major">
+                <h2>{{ entry.createdAt | date('F d Y') }}</h2>
+                <p>Recorded by {{ entry.author.firstName }}</p>
+            </header>
 
-    </div>
-</section>
+            {% for answer in entry.answers %}
+            <h4>{{ answer.question.label }}</h4>
+
+            <p>{{ answer.answerText }}</p>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+
+    {% if pagination|length == 0 %}
+    <section class="wrapper">
+        <div class="container">
+            <header class="major">
+                <h2>No Journal Entries Found</h2>
+                <p>Why don't you create a new entry now?</p>
+            </header>
+        </div>
+    </section>
+    {% endif %}
+
+    <section id="pagination-section" class="wrapper" style="padding-left: 11em;">
+        {{ knp_pagination_render(pagination) }}
+    </section>
 {% endblock %}
 

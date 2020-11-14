@@ -19,17 +19,17 @@ class AcJournalEntryRepository extends ServiceEntityRepository
         parent::__construct($registry, AcJournalEntry::class);
     }
 
-    public function getWithSearchQueryBuilder(?string $filter_date = null): \Doctrine\ORM\QueryBuilder
+    public function getWithDateSearchQueryBuilder(?string $filter_date = null): \Doctrine\ORM\QueryBuilder
     {
         $date_string = substr(trim($filter_date), 0, 10);
 
         if (isset($date_string) && strlen(trim($date_string)) == 10
             && preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $date_string))
         {
-
             return $this->createQueryBuilder('e')
                 ->select('e', 'a')
                 ->join('e.answers', 'a')
+                ->join('e.author', 't')
                 ->andWhere('e.createdAt BETWEEN :filter_date_from AND :filter_date_to')
                 ->setParameter('filter_date_from', $date_string)
                 ->setParameter('filter_date_to', $date_string . ' 23:59:59')
@@ -41,6 +41,25 @@ class AcJournalEntryRepository extends ServiceEntityRepository
                 ->select('e', 'a')
                 ->join('e.answers', 'a')
                 ->join('e.author', 't')
+                ->orderBy('e.id', 'DESC');
+        }
+    }
+
+    public function getHomePageQueryBuilder(?bool $display_private_posts = false): \Doctrine\ORM\QueryBuilder
+    {
+        if ($display_private_posts)
+        {
+            return $this->createQueryBuilder('e')
+                ->select('e', 'a')
+                ->join('e.answers', 'a')
+                ->orderBy('e.id', 'DESC');
+        }
+        else
+        {
+            return $this->createQueryBuilder('e')
+                ->select('e', 'a')
+                ->join('e.answers', 'a')
+                ->andWhere('e.isPrivate = 0')
                 ->orderBy('e.id', 'DESC');
         }
     }

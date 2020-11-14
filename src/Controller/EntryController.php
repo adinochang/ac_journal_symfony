@@ -14,7 +14,6 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Twig\Environment;
 
 class EntryController extends AbstractController
 {
@@ -33,7 +32,7 @@ class EntryController extends AbstractController
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $entriesQueryBuilder = $this->entryRepository->getWithSearchQueryBuilder($request->query->get('filter_date'));
+        $entriesQueryBuilder = $this->entryRepository->getWithDateSearchQueryBuilder($request->query->get('filter_date'));
 
         $pagination = $paginator->paginate(
             $entriesQueryBuilder, /* query NOT result */
@@ -50,10 +49,20 @@ class EntryController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function home(Environment $twigEnvironment) {
-        return new Response(
-            $twigEnvironment->render('home.html.twig')
+    public function home(Request $request, PaginatorInterface $paginator) {
+        $entriesQueryBuilder = $this->entryRepository->getHomePageQueryBuilder(
+            ($this->getUser() != null)
         );
+
+        $pagination = $paginator->paginate(
+            $entriesQueryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1) /*page number*/,
+            5 /*limit per page*/
+        );
+
+        return $this->render('home.html.twig', [
+            'pagination' => $pagination,
+        ]);
     }
 
     /**
