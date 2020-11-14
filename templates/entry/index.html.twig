@@ -26,6 +26,7 @@
                 <thead>
                 <tr>
                     <th>Summary</th>
+                    <th>Visibility</th>
                     <th>Author</th>
                     <th>Last Updated</th>
                 </tr>
@@ -35,6 +36,7 @@
                 {% for entry in pagination %}
                 <tr>
                     <td><a href="{{ path('entry_edit', { id: entry.id } ) }}" class="button alt icon fa-pencil small" style="margin-right: 1em;">Edit</a>{{ entry.answer_excerpt(100) }}</td>
+                    <td>{{ entry.isPrivate ? 'Private' : 'Public' }}</td>
                     <td>{{ entry.author.getFirstName() }}</td>
                     <td>{{ entry.updatedAt  ? entry.updatedAt | date('Y-m-d H:i:s') : entry.createdAt | date('Y-m-d H:i:s') }}</td>
                 </tr>

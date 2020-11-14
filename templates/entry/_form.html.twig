@@ -5,6 +5,14 @@
 </div>
 
 <div class="row uniform 50%">
+    <div class="12u 12u$(4)">
+        <div class="select-wrapper">
+            {{ form_label(form.isPrivate) }}
+            {{ form_widget(form.isPrivate) }}
+
+            <div class="error_message">{{ form_errors(form.isPrivate) }}</div>
+        </div>
+    </div>
 
     {% for answer in form.answers %}
         <div class="12u 12u$(4)">

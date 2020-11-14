@@ -34,6 +34,13 @@ class AcJournalEntry
     private $author;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_private", type="boolean", nullable=false, options={"default"="0"})
+     */
+    private $isPrivate = false;
+
+    /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
@@ -70,6 +77,18 @@ class AcJournalEntry
     public function setAuthor(?AcJournalUser $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getIsPrivate(): ?bool
+    {
+        return $this->isPrivate;
+    }
+
+    public function setIsPrivate(bool $isPrivate): self
+    {
+        $this->isPrivate = $isPrivate;
 
         return $this;
     }

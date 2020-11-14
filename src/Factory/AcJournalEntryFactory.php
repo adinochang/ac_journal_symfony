@@ -25,7 +25,9 @@ final class AcJournalEntryFactory extends ModelFactory
 
     protected function getDefaults(): array
     {
-        return [];
+        return [
+            'is_private' => 0,
+        ];
     }
 
     protected function initialize(): self
