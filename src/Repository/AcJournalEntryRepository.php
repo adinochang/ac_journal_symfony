@@ -64,6 +64,34 @@ class AcJournalEntryRepository extends ServiceEntityRepository
         }
     }
 
+    public function findJournalEntriesPerMonth(\DateTime $filter_date = null)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT CAST(YEAR(created_at) as varchar) + ' ' + CAST(MONTH(created_at) as varchar) AS created_month, 
+            (YEAR(created_at)*12) + MONTH(created_at) AS sort_month,
+            COUNT(*) AS entry_count
+            FROM ac_journal_entry
+            WHERE created_at >= :created_at
+            GROUP BY CAST(YEAR(created_at) as varchar) + ' ' + CAST(MONTH(created_at) as varchar),
+            (YEAR(created_at)*12) + MONTH(created_at)
+            ORDER BY (YEAR(created_at)*12) + MONTH(created_at)";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['created_at' => $filter_date->format('Y-m-d')]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
+    public function findJournalEntriesFromDate(\DateTime $filter_date = null)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.createdAt >= :filter_date')
+            ->setParameter('filter_date', $filter_date->format('Y-m-d'))
+            ->orderBy('e.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return AcJournalEntry[] Returns an array of AcJournalEntry objects
     //  */

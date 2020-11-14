@@ -235,4 +235,61 @@ class EntryController extends AbstractController
 
         return $this->redirectToRoute('entry_index');
     }
+
+    /**
+     * @Route("/entry/report", name="entry_report")
+     */
+    public function report() {
+        // get the number of journal entries per month from the past year
+        $monthly_count = $this->entryRepository->findJournalEntriesPerMonth(
+            new \DateTime('1 year ago')
+        );
+
+        $monthly_entries = [];
+
+        foreach($monthly_count as $month)
+        {
+            $monthly_entries[$month['created_month']] = (int)$month['entry_count'];
+        }
+
+        // get the journal entry answers from the past year
+        $entries_words = [];
+        $average_words = [];
+
+        $entries = $this->entryRepository->findJournalEntriesFromDate(
+            new \DateTime('1 year ago')
+        );
+
+        // for each entry count the number of words and update the average_words result array
+        foreach($entries as $entry)
+        {
+            $word_count = 0;
+            foreach($entry->getAnswers() as $answer)
+            {
+                $word_count += str_word_count($answer->getAnswerText(), 0);
+            }
+
+            $month_label = $entry->getCreatedAt()->format('M Y');
+
+            if (!isset($entries_words[$month_label]))
+            {
+                $entries_words[$month_label] = [
+                    'word_count' => 0,
+                    'entry_count' => 0,
+                ];
+            }
+
+            // add word count total
+            $entries_words[$month_label]['word_count'] += $word_count;
+            $entries_words[$month_label]['entry_count'] += 1;
+
+            // update the average
+            $average_words[$month_label] = round($entries_words[$month_label]['word_count'] / $entries_words[$month_label]['entry_count'], 1);
+        }
+
+        return $this->render('entry/report.html.twig', [
+            'monthly_entries' => $monthly_entries,
+            'average_words' => $average_words,
+        ]);
+    }
 }

@@ -21,6 +21,8 @@
         <link rel="stylesheet" href="{{ asset('/css/style-xlarge.css') }}" />
     </noscript>
 
+    {% block pagejs %}{% endblock %}
+
     {% block pagecss %}{% endblock %}
 </head>
 <body class="landing">
@@ -32,7 +34,7 @@
         <ul>
             <li><a href="{{ path('question') }}">Questions</a></li>
             <li><a href="{{ path('entry_index') }}">Entries</a></li>
-            <li><a href="#">Reports</a></li>
+            <li><a href="{{ path('entry_report') }}">Reports</a></li>
 
             {% if app.user == null %}
                 <li><a href="{{ path('app_login') }}">Login</a></li>
@@ -74,8 +76,6 @@
 </footer>
 
 {{ encore_entry_script_tags('app') }}
-
-{% block pagejs %}{% endblock %}
 
 </body>
 </html>
