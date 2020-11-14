@@ -35,6 +35,20 @@ class AcJournalQuestionRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return AcJournalQuestion[] Returns an array of AcJournalQuestion objects
+     */
+    public function findByEnabled($value)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.enabled = :val')
+            ->setParameter('val', $value)
+            ->orderBy('a.sortOrder', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return AcJournalQuestion[] Returns an array of AcJournalQuestion objects
     //  */

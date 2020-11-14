@@ -9,7 +9,7 @@
 {% block action %}
     {% if app.user %}
         <li>
-            <a href="#" class="button big">New Entry</a>
+            <a href="{{ path('entry_new') }}" class="button big">New Entry</a>
         </li>
     {% endif %}
 {% endblock %}

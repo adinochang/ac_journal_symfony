@@ -33,7 +33,7 @@ class AcJournalEntryRepository extends ServiceEntityRepository
                 ->andWhere('e.createdAt BETWEEN :filter_date_from AND :filter_date_to')
                 ->setParameter('filter_date_from', $date_string)
                 ->setParameter('filter_date_to', $date_string . ' 23:59:59')
-                ->orderBy('e.id', 'ASC');
+                ->orderBy('e.id', 'DESC');
         }
         else
         {
@@ -41,17 +41,8 @@ class AcJournalEntryRepository extends ServiceEntityRepository
                 ->select('e', 'a')
                 ->join('e.answers', 'a')
                 ->join('e.author', 't')
-                ->orderBy('e.id', 'ASC');
+                ->orderBy('e.id', 'DESC');
         }
-    }
-
-    public function findAllJoinedToCategory()
-    {
-        $entityManager = $this->getEntityManager();
-
-
-
-        return $query->getResult();
     }
 
     // /**

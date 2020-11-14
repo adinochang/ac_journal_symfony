@@ -1,0 +1,27 @@
+{{ form_start(form) }}
+
+<div class="row uniform 50% error_message">
+    {{ form_errors(form) }}
+</div>
+
+<div class="row uniform 50%">
+
+    {% for answer in form.answers %}
+        <div class="12u 12u$(4)">
+            {{ form_label(answer.answerText) }}
+            {{ form_widget(answer.answerText) }}
+            <div class="error_message">{{ form_errors(answer.answerText) }}</div>
+        </div>
+    {% endfor %}
+
+    <div class="12u$">
+        <ul class="actions">
+            <li>{{ form_widget(form.submit) }}</li>
+            <li><input type="reset" value="Cancel" onclick="window.location = '{{ app.request.headers.get('referer') }}';" /></li>
+        </ul>
+    </div>
+</div>
+
+{{ form_row(form._token) }}
+
+{{ form_end(form, {'render_rest': false}) }}

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AcJournalUserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -54,6 +56,16 @@ class AcJournalUser implements UserInterface
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AcJournalEntry", mappedBy="author")
+     */
+    private $entries;
+
+    public function __construct()
+    {
+        $this->entries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -172,5 +184,17 @@ class AcJournalUser implements UserInterface
     public function getFirstName(): ?string
     {
         return explode(' ', $this->name)[0];
+    }
+
+    /**
+     * @return Collection|AcJournalEntry[]
+     */
+    public function getEntries(): Collection
+    {
+        return $this->entries;
+    }
+
+    public function addEntries(AcJournalEntry $entry) {
+        $this->entries->add($entry);
     }
 }

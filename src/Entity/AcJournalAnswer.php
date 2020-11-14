@@ -55,7 +55,7 @@ class AcJournalAnswer
     /**
      * @var \AcJournalEntry
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\AcJournalEntry", inversedBy="answers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\AcJournalEntry", inversedBy="answers", cascade={"persist", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="entry_id", referencedColumnName="id")
      * })
@@ -126,6 +126,4 @@ class AcJournalAnswer
 
         return $this;
     }
-
-
 }
