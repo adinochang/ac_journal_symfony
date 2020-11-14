@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title %}<h2>Edit Entry</h2>{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        {{ include('entry/_form.html.twig') }}
+
+        <form method="post" action="{{ path('entry_destroy', { id: entry_id } ) }}">
+            <div class="row uniform 50%">
+                <div class="12u$" style="margin-top: 10em;">
+                    <ul class="actions">
+                        <li><input type="submit" value="Delete" class="delete-button" onclick="return confirm('Really delete?')" /></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

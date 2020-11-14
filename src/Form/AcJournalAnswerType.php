@@ -25,7 +25,7 @@ class AcJournalAnswerType extends AbstractType
                     'label' => $question->getLabel(),
                     'required' => $question->getRequired(),
                     'attr' => [
-                        'class' => '',
+                        'class' => 'entry-form-textarea',
                         'placeholder' => 'Enter your answer',
                     ],]);
             }

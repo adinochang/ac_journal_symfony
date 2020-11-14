@@ -120,8 +120,110 @@ class EntryController extends AbstractController
     /**
      * @Route("/entry/{id}", name="entry_edit", requirements={"id":"\d+"})
      */
-    public function edit(Request $request, EntityManagerInterface $entityManager, AcJournalEntry $question = null): Response
+    public function edit(Request $request, EntityManagerInterface $entityManager, AcJournalEntry $entry = null): Response
     {
+        if(!isset($entry))
+        {
+            $this->addFlash('error', 'Entry not found');
 
+            return $this->redirectToRoute('entry_index');
+        }
+
+        // add missing questions to the edit form
+        $entry_answers = $entry->getAnswers();
+
+        $answered_questions = [];
+        foreach($entry_answers as $answer)
+        {
+            $answered_questions[$answer->getQuestion()->getId()] = $answer;
+        }
+
+        $entry->clearAnswers();
+
+        $questions = $this->questionRepository->findByEnabled(1);
+        foreach($questions as $question)
+        {
+            if (isset($answered_questions[$question->getId()]))
+            {
+                // add the previous answer
+                $entry->getAnswers()->add($answered_questions[$question->getId()]);
+            }
+            else
+            {
+                // add the missing question
+                $new_answer = new AcJournalAnswer();
+                $new_answer->setQuestion($question);
+                $entry->getAnswers()->add($new_answer);
+            }
+        }
+
+        $form = $this->createForm(AcJournalEntryType::class, $entry);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entry = $form->getData();
+
+            // save entry
+            $entry->setUpdatedAt(new \DateTime());
+            $entityManager->persist($entry);
+
+            // save answers updated date
+            foreach($entry->getAnswers() as $answer)
+            {
+                if (isset($answer) && strlen(trim($answer->getAnswerText())) > 0)
+                {
+                    if ($answer->getId() != null)
+                    {
+                        // update existing answer
+                        $answer->setUpdatedAt(new \DateTime());
+                    }
+                    else
+                    {
+                        // create new answer
+                        $answer->setEntry($entry);
+                        $answer->setCreatedAt(new \DateTime());
+                    }
+
+                    $entityManager->persist($answer);
+                }
+                else
+                {
+                    $entry->removeAnswer($answer);
+                }
+            }
+
+            // save to database
+           $entityManager->flush();
+
+            $this->addFlash('success', 'Save successful');
+
+            return $this->redirectToRoute('entry_index');
+        }
+
+        return $this->render('entry/edit.html.twig', [
+            'form' => $form->createView(),
+            'entry_id' => $entry->getId(),
+        ]);
+    }
+
+    /**
+     * @Route("/entry/{id}/delete", name="entry_destroy", requirements={"id":"\d+"})
+     */
+    public function destroy(Request $request, EntityManagerInterface $entityManager, AcJournalEntry $entry = null): Response
+    {
+        if(!isset($entry))
+        {
+            $this->addFlash('error', 'Entry not found');
+
+            return $this->redirectToRoute('entry_index');
+        }
+
+        $entityManager->remove($entry);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Delete successful');
+
+        return $this->redirectToRoute('entry_index');
     }
 }

@@ -114,6 +114,10 @@ class AcJournalEntry
         $this->answers->removeElement($answer);
     }
 
+    public function clearAnswers() {
+        $this->answers->clear();
+    }
+
     public function answer_excerpt(int $required_length = 20): string
     {
         $excerpt = 'testtesttest';

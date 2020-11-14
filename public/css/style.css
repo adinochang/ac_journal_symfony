@@ -1254,3 +1254,9 @@
             width:100%;
         }
 
+.entry-form-textarea {
+	min-height: 120px;
+	overflow-y: scroll;
+}
+
+
